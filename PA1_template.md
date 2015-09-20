@@ -40,6 +40,7 @@ We begin working on the starting example by making further changes to the data.
 ```r
 targetData <- rawData[complete.cases(rawData),]         ##  Remove NA's   
 targetData <- arrange(targetData, date)                 ##  Arrange in Date Order 
+activityData <- arrange(targetData, interval)           ##  Arrange in interval Order
 ```
 
 ## What is mean total number of steps taken per day?
@@ -83,7 +84,36 @@ meddlystps <- median(targetData$Daily_Steps)
 ```
         
 ## What is the average daily activity pattern?
+The average steps for each interval, across all days is listed below.  
+-We create a directory and complete preparing the data.
+-We plot the average steps for each interval, across all days.
+-We find the maximum value and identify the interval that prepares that below.
 
+
+
+```r
+        activityData <- aggregate(activityData$steps, list(activityData$interval), mean)
+        colnames(activityData) <- c("Interval", "Average_Steps")
+        plot(activityData$Average_Steps, type="l")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+
+```r
+        print("The interval with the greatest number of steps is averaged across all days is")
+```
+
+```
+## [1] "The interval with the greatest number of steps is averaged across all days is"
+```
+
+```r
+        print(as.character(activityData[activityData$Average_Steps==max(activityData$Average_Steps),]))
+```
+
+```
+## [1] "835"              "206.169811320755"
+```
 
 
 ## Imputing missing values

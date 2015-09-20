@@ -16,6 +16,7 @@ fnActivityExercise <- function() {
         ##  Prepare Cleansed Dataset
         targetData <- rawData[complete.cases(rawData),]         ##  Remove NA's
         targetData <- arrange(targetData, date)                 ##  Arrange in Date Order
+        activityData <- arrange(targetData, interval)           ##  Arrange in interval Order
         
         ##  Manipulate Data for Part1 Results
         targetData$date <- as.Date(targetData$date)             ##  Convert factors to date format.
@@ -33,8 +34,17 @@ fnActivityExercise <- function() {
         print(c("Average Daily Steps - ", as.character(avgdlystps)))
         print(c("Median Daily Steps - ", as.character(meddlystps)))
         
+        ## Create Part 2 Results
+        ##  activitydata <- aggregate(activityData$steps, list(activityData$interval), mean)
         
-        return(targetData)    ## Returns the DataSet <DEBUG>
+        activityData <- aggregate(activityData$steps, list(activityData$interval), mean)
+        colnames(activityData) <- c("Interval", "Average_Steps")
+        plot(activityData$Average_Steps, type="l")
+        
+        print("The interval with the greatest number of steps is averaged across all days is")
+        print(as.character(activityData[activityData$Average_Steps==max(activityData$Average_Steps),]))
+        
+        return(activityData)    ## Returns the DataSet <DEBUG>
 }
 
 
