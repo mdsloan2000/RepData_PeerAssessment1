@@ -29,8 +29,8 @@ fnActivityExercise <- function() {
         
         
         plot(targetData$Daily_Steps,type="h")
-        abline(h=avgdlystps)
-        abline(h=meddlystps)
+        abline(h=avgdlystps, col="Red")
+        abline(h=meddlystps, col="Blue")
         print(c("Average Daily Steps - ", as.character(avgdlystps)))
         print(c("Median Daily Steps - ", as.character(meddlystps)))
         
@@ -54,10 +54,25 @@ fnActivityExercise <- function() {
         ##immute NA's
         medianNA <- median(NADataSet$steps, na.rm = TRUE)
         NADataSet[is.na(NADataSet)] <- 0
-        
         write.csv(NADataSet, file = "./data/NADataSet.csv")
+
+        NADataSet$date <- as.Date(NADataSet$date)             ##  Convert factors to date format.
+        NADataSet <- aggregate(NADataSet$steps, list(NADataSet$date), sum)    ##  Builds SUM Aggregate
+        colnames(NADataSet) <- c("Date", "Daily_Steps")
+
+        NAavgdlystps <- mean(NADataSet$Daily_Steps)
+        NAmeddlystps <- median(NADataSet$Daily_Steps)
+        
+                
+        plot(NADataSet$Daily_Steps,type="h")
+        abline(h=NAavgdlystps, col="Red")
+        abline(h=NAmeddlystps, col="Blue")
+        print(c("Average Daily Steps - ", as.character(NAavgdlystps)))
+        print(c("Median Daily Steps - ", as.character(NAmeddlystps)))
+
         
         return(NADataSet)    ## Returns the DataSet <DEBUG>
+
 }
 
 fnCleanUp <- function() {

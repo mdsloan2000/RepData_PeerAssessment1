@@ -61,8 +61,8 @@ meddlystps <- median(targetData$Daily_Steps)
 
 ```r
         plot(targetData$Daily_Steps,type="h")  
-        abline(h=avgdlystps)  
-        abline(h=meddlystps)  
+        abline(h=avgdlystps, col="Red")  
+        abline(h=meddlystps, col="Blue")  
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
@@ -129,12 +129,43 @@ The total number of NA values in the data set are -
 ```
 The strategy I used to conver NA's was to calculate the median number of steps accross all values  
 and replace all NAs with the median value for the given interval.  It writes the dataset to the data 
+I then create the updated plot.
 
 
 ```r
         medianNA <- median(NADataSet$steps, na.rm = TRUE)
         NADataSet[is.na(NADataSet)] <- 0
         write.csv(NADataSet, file = "./data/NADataSet.csv")
+        
+        NADataSet$date <- as.Date(NADataSet$date)             ##  Convert factors to date format.
+        NADataSet <- aggregate(NADataSet$steps, list(NADataSet$date), sum)    ##  Builds SUM Aggregate
+        colnames(NADataSet) <- c("Date", "Daily_Steps")
+
+        NAavgdlystps <- mean(NADataSet$Daily_Steps)
+        NAmeddlystps <- median(NADataSet$Daily_Steps)
+        
+                
+        plot(NADataSet$Daily_Steps,type="h")
+        abline(h=NAavgdlystps, col="Red")
+        abline(h=NAmeddlystps, col="Blue")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+
+```r
+        print(c("Average Daily Steps - ", as.character(NAavgdlystps)))
+```
+
+```
+## [1] "Average Daily Steps - " "9354.22950819672"
+```
+
+```r
+        print(c("Median Daily Steps - ", as.character(NAmeddlystps)))
+```
+
+```
+## [1] "Median Daily Steps - " "10395"
 ```
         
         
