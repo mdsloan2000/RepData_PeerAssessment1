@@ -55,6 +55,8 @@ fnActivityExercise <- function() {
         medianNA <- median(NADataSet$steps, na.rm = TRUE)
         NADataSet[is.na(NADataSet)] <- 0
         
+        write.csv(NADataSet, file = "./data/NADataSet.csv")
+        
         return(NADataSet)    ## Returns the DataSet <DEBUG>
 }
 

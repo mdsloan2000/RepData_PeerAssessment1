@@ -128,12 +128,13 @@ The total number of NA values in the data set are -
 ## [2] "2304"
 ```
 The strategy I used to conver NA's was to calculate the median number of steps accross all values  
-and replace all NAs with the median value for the given interval.
+and replace all NAs with the median value for the given interval.  It writes the dataset to the data 
 
 
 ```r
         medianNA <- median(NADataSet$steps, na.rm = TRUE)
         NADataSet[is.na(NADataSet)] <- 0
+        write.csv(NADataSet, file = "./data/NADataSet.csv")
 ```
         
         
