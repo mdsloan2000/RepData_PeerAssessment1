@@ -44,9 +44,19 @@ fnActivityExercise <- function() {
         print("The interval with the greatest number of steps is averaged across all days is")
         print(as.character(activityData[activityData$Average_Steps==max(activityData$Average_Steps),]))
         
-        return(activityData)    ## Returns the DataSet <DEBUG>
-}
 
+
+        ## Part 3 Results
+        NADataSet <- rawData
+        print(c("Total NA values is the dataset are - ", sum(is.na(rawData))))
+        
+        
+        ##immute NA's
+        medianNA <- median(NADataSet$steps, na.rm = TRUE)
+        NADataSet[is.na(NADataSet)] <- 0
+        
+        return(NADataSet)    ## Returns the DataSet <DEBUG>
+}
 
 fnCleanUp <- function() {
         file.remove("activity.zip")

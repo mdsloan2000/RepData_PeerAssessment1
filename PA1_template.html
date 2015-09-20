@@ -132,10 +132,17 @@ meddlystps &lt;- median(targetData$Daily_Steps)</code></pre>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
+<p>The total number of NA values in the data set are -</p>
+<pre class="r"><code>        NADataSet &lt;- rawData
+        print(c(&quot;Total NA values is the dataset are - &quot;, sum(is.na(rawData))))</code></pre>
+<pre><code>## [1] &quot;Total NA values is the dataset are - &quot;
+## [2] &quot;2304&quot;</code></pre>
+<p>The strategy I used to conver NA’s was to calculate the median number of steps accross all values<br />and replace all NAs with the median value for the given interval.</p>
+<pre class="r"><code>        medianNA &lt;- median(NADataSet$steps, na.rm = TRUE)
+        NADataSet[is.na(NADataSet)] &lt;- 0</code></pre>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends</h2>
-<p>}</p>
 </div>
 
 

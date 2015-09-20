@@ -68,11 +68,19 @@ The average steps for each interval, across all days is listed below.
         print(as.character(activityData[activityData$Average_Steps==max(activityData$Average_Steps),]))
 ```   
 
-
 ## Imputing missing values
+The total number of NA values in the data set are -
+```{r}
+        NADataSet <- rawData
+        print(c("Total NA values is the dataset are - ", sum(is.na(rawData))))
+```
+The strategy I used to conver NA's was to calculate the median number of steps accross all values  
+and replace all NAs with the median value for the given interval.
 
-
-
+```{r}
+        medianNA <- median(NADataSet$steps, na.rm = TRUE)
+        NADataSet[is.na(NADataSet)] <- 0
+```
+        
+        
 ## Are there differences in activity patterns between weekdays and weekends
-
-}
