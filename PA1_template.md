@@ -8,7 +8,7 @@
 
 
 ```r
-library("dplyr")  
+library("dplyr")
 ```
 
 ```
@@ -25,6 +25,7 @@ library("dplyr")
 ```
 
 ```r
+library("timeDate")
 download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip", "activity.zip")  
 unzip ("activity.zip", exdir= "./data")                 ##  Unzip the file.  
 rawData <- read.csv ("./data/activity.csv")             ##  Read the CSV Files into a Raw Location  
@@ -170,3 +171,35 @@ I then create the updated plot.
         
         
 ## Are there differences in activity patterns between weekdays and weekends
+
+There are clear differences in patterns between weekend weekday activity.  Weekends show activity
+throughout the day versus weekday activity is early in the day.  Why is interesting, I would imagine that 
+scheduled physical activity would be early or before work during the weekday and throughout the day on the
+weekend....
+
+To complete this, I loaded my NA data, aggregated the weekdays and weekend together.  I created two plots.
+
+
+```r
+        wvwData <- read.csv("./data/NADataSet.csv")
+        wvwData <- wvwData[,2:4]
+        wvwData$date <- as.Date(wvwData$date)
+        
+        measures.wd <- wvwData[isWeekday(wvwData$date),]
+        measures.we <- wvwData[isWeekend(wvwData$date),]
+        measures.wd <- aggregate(measures.wd$steps, list(measures.wd$interval), mean)
+        measures.we <- aggregate(measures.we$steps, list(measures.we$interval), mean)
+        
+        plot(measures.wd, type="l")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
+
+```r
+        plot(measures.we, type="l")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-8-2.png) 
+
+        
+        

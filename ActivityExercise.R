@@ -5,6 +5,7 @@
 fnActivityExercise <- function() {
         ##  Source required libraries.
         library("dplyr")
+        library("timeDate")
 
         ##  Download Source File to working directory and unzip csv to datafile 
         download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip", "activity.zip")
@@ -54,6 +55,7 @@ fnActivityExercise <- function() {
         ##immute NA's
         medianNA <- median(NADataSet$steps, na.rm = TRUE)
         NADataSet[is.na(NADataSet)] <- 0
+        str(NADataSet)
         write.csv(NADataSet, file = "./data/NADataSet.csv")
 
         NADataSet$date <- as.Date(NADataSet$date)             ##  Convert factors to date format.
@@ -70,8 +72,22 @@ fnActivityExercise <- function() {
         print(c("Average Daily Steps - ", as.character(NAavgdlystps)))
         print(c("Median Daily Steps - ", as.character(NAmeddlystps)))
 
+        ## Part 4
+        wvwData <- read.csv("./data/NADataSet.csv")
+        wvwData <- wvwData[,2:4]
+        wvwData$date <- as.Date(wvwData$date)
         
-        return(NADataSet)    ## Returns the DataSet <DEBUG>
+        measures.wd <- wvwData[isWeekday(wvwData$date),]
+        measures.we <- wvwData[isWeekend(wvwData$date),]
+        measures.wd <- aggregate(measures.wd$steps, list(measures.wd$interval), mean)
+        measures.we <- aggregate(measures.we$steps, list(measures.we$interval), mean)
+        
+        plot(measures.wd, type="l")
+        plot(measures.we, type="l")
+        
+        
+                
+        return(wvwData)    ## Returns the DataSet <DEBUG>
 
 }
 
